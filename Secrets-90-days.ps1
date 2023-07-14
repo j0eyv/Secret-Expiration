@@ -22,8 +22,6 @@ do {
 
 # Query each application
 foreach ($application in $allApplications) {
-    Write-Host "Application Name: $($application.displayName)"
-    Write-Host "Application ID: $($application.id)"
     
 # Retrieve secrets
     $secretsUri = "https://graph.microsoft.com/v1.0/applications/$($application.id)/passwordCredentials"
@@ -40,6 +38,8 @@ foreach ($application in $allApplications) {
 
                 if ($daysUntilExpiry -le 90) {
                     Write-Host -ForegroundColor Red "Secret Expiring within 3 Months:"
+                    Write-Host "Application Name: $($application.displayName)"
+                    Write-Host "Application ID: $($application.id)"
                     Write-Host "  Key ID: $($secret.keyId)"
                     Write-Host "  Expiry Date: $($expiryDate.ToString("yyyy-MM-dd"))"
                     Write-Host "  Days Until Expiry: $daysUntilExpiry"
